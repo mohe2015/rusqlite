@@ -158,6 +158,7 @@ impl<'a> ValueRef<'a> {
 
 impl From<ValueRef<'_>> for Value {
     #[inline]
+    #[track_caller]
     fn from(borrowed: ValueRef<'_>) -> Value {
         match borrowed {
             ValueRef::Null => Value::Null,
@@ -257,4 +258,7 @@ impl<'a> ValueRef<'a> {
             _ => unreachable!("sqlite3_value_type returned invalid value"),
         }
     }
+
+    // TODO sqlite3_value_nochange // 3.22.0 & VTab xUpdate
+    // TODO sqlite3_value_frombind // 3.28.0
 }
